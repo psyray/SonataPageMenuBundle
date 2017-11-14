@@ -88,7 +88,6 @@ class MainMenuBuilder implements MenuBuilderInterface
         if ($level == 0) {
             $this->mainMenu = $currentItem;
         } else {
-            $root->addChild($currentItem);
             $currentMenu = $root->addChild($currentItem);
             if (null !== $menu->getIcon()) {
                 $currentMenu->setExtra('icon', $menu->getIcon());

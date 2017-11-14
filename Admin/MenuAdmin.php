@@ -24,8 +24,7 @@ class MenuAdmin extends AbstractAdmin
     protected $formAttribute = array();
     protected $pageInstance;
     protected $siteInstance;
-    protected $positionHandler
-    ;
+    protected $positionHandler;
 
     public function __construct($code, $class, $baseControllerName, PageManagerInterface $pageManagerInterface, OptionalSiteInterface $optionalSiteInterface)
     {
@@ -167,6 +166,7 @@ class MenuAdmin extends AbstractAdmin
 
         $formMapper
              ->add('name', 'text')
+             ->add('icon', 'text', array('required' => false))
              ->add('page', PageSelectorType::class, array(
                         'site'          => $this->siteInstance,
                         'model_manager' => $this->getModelManager(),
@@ -179,6 +179,7 @@ class MenuAdmin extends AbstractAdmin
                         )
                     ))
              ->add('parent', 'sonata_type_model', array('required' => false))
+             ->add('userRestricted', 'checkbox', array('required' => false, 'attr' => $this->formAttribute))
              ->add('active', 'checkbox', array('required' => false, 'attr' => $this->formAttribute))
              ->add('clickable', 'checkbox', array('required' => false, 'attr' => $this->formAttribute))
             ;
@@ -196,14 +197,13 @@ class MenuAdmin extends AbstractAdmin
         $listMapper
             ->addIdentifier('id')
             ->add('name', 'string', array('template' => 'SkillbertoSonataPageMenuBundle:Admin:base_list_field.html.twig'))
+            ->add('icon', 'string', array('template' => 'SkillbertoSonataPageMenuBundle:Admin:base_list_field.html.twig'))
             ->add('page')
             ->add('parent')
+            ->add('userRestricted')
             ->add('active')
             ->add('clickable')
-            ->add(
-                '_action',
-                'actions',
-                array(
+            ->add('_action', 'actions', array(
                 'actions' => array(
                     'edit'      => array(),
                     'delete'    => array(),

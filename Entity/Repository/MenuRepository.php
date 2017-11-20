@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Gedmo\Sortable\SortableListener;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 use Skillberto\SonataPageMenuBundle\Exception\InvalidArgumentException;
+use Sonata\PageBundle\Model\Site;
 
 class MenuRepository extends NestedTreeRepository
 {
@@ -32,13 +33,31 @@ class MenuRepository extends NestedTreeRepository
     public function getParentChildNumber()
     {
         $qb = $this->createQueryBuilder('m')
-            ->select('IDENTITY(m.parent) as parent')
-            ->addSelect('COUNT(m) as size')
-            ->groupBy('m.parent')
-            ->addOrderBy('m.root', 'ASC')
-            ->addOrderBy('m.lft', 'ASC')
+        ->select('IDENTITY(m.parent) as parent')
+        ->addSelect('COUNT(m) as size')
+        ->groupBy('m.parent')
+        ->addOrderBy('m.root', 'ASC')
+        ->addOrderBy('m.lft', 'ASC')
         ;
-
+        
+        return $qb->getQuery()->getResult();
+    }
+    
+    public function getMenus(Site $site)
+    {
+        $qb = $this->createQueryBuilder('m')
+        ->select('m','p','s','mp','mc')
+        ->leftJoin('m.parent', 'mp')
+        ->leftJoin('m.children', 'mc')
+        ->leftJoin('m.page', 'p')
+        ->leftJoin('m.site', 's')
+        ->where('m.site = :site')
+        ->andWhere('m.parent IS NULL')
+        ->setParameter('site', $site)
+        ->addOrderBy('m.root', 'ASC')
+        ->addOrderBy('m.lft', 'ASC')
+        ;
+        
         return $qb->getQuery()->getResult();
     }
 }

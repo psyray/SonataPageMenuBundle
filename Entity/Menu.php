@@ -3,99 +3,158 @@
 namespace Skillberto\SonataPageMenuBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Menu
+ * 
+ * @Gedmo\Tree(type="nested")
+ * @ORM\Table(name="skillberto__menu")
+ * @ORM\Entity(repositoryClass="Skillberto\SonataPageMenuBundle\Entity\Repository\MenuRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Menu
 {
     /**
      * @var integer
+     * 
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
     
     /**
      * @var string
+     * 
+     * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
     protected $name;
     
     /**
      * @var string
+     * 
+     * @ORM\Column(name="icon", type="string", length=255, nullable=true)
      */
     protected $icon;
     
     /**
      * @var boolean
+     * 
+     * @ORM\Column(name="clickable", type="boolean", nullable=false)
      */
-    protected $clickable;
+    protected $clickable = true;
     
     /**
      * @var integer
+     * 
+     * @Gedmo\TreeLeft
+     * @ORM\Column(name="lft", type="integer", nullable=false)
      */
     protected $lft;
     
     /**
      * @var integer
+     * 
+     * @Gedmo\TreeRight
+     * @ORM\Column(name="rgt", type="integer", nullable=false)
      */
     protected $rgt;
     
     /**
      * @var integer
+     * 
+     * @Gedmo\TreeRoot
+     * @ORM\Column(name="root", type="integer", nullable=true)
      */
     protected $root;
     
     /**
      * @var integer
+     * 
+     * @Gedmo\TreeLevel
+     * @ORM\Column(name="lvl", type="integer", nullable=false)
      */
     protected $lvl;
     
     /**
      * @var \Doctrine\Common\Collections\Collection
+     * 
+     * @ORM\OneToMany(targetEntity="Menu", mappedBy="parent")
+     * @ORM\OrderBy({"lft" = "ASC"})
      */
     protected $children;
     
     /**
      * @var \Application\Sonata\PageBundle\Entity\Page
+     * 
+     * @ORM\ManyToOne(targetEntity="\Application\Sonata\PageBundle\Entity\Page")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="page_id", referencedColumnName="id", onDelete="SET NULL")
+     * })
      */
     protected $page;
     
     /**
      * @var \Application\Sonata\PageBundle\Entity\Site
+     * 
+     * @ORM\ManyToOne(targetEntity="\Application\Sonata\PageBundle\Entity\Site")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="site_id", referencedColumnName="id", onDelete="SET NULL")
+     * })
      */
     protected $site;
     
     /**
-     * @var \Skillberto\SonataPageMenuBundle\Entity\Menu
+     * @var Menu
+     * 
+     * @Gedmo\TreeParent
+     * @ORM\ManyToOne(targetEntity="Menu", inversedBy="children")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
+     * })
      */
     protected $parent;
     
     /**
      * @var array
+     * 
+     * @ORM\Column(name="attribute", type="array")
      */
     protected $attribute;
     
     /**
      * @var boolean
+     * 
+     * @ORM\Column(name="active", type="boolean", nullable=false)
      */
-    protected $active;
+    protected $active = false;
     
     /**
      * @var boolean
+     * 
+     * @ORM\Column(name="user_restricted", type="boolean", nullable=false)
      */
-    protected $userRestricted;
+    protected $userRestricted = false;
     
     /**
      * @var boolean
+     * 
+     * @ORM\Column(name="hide_when_userconnected", type="boolean", nullable=false)
      */
-    protected $hideWhenUserConnected;
+    protected $hideWhenUserConnected = false;
     
     /**
      * @var \DateTime
+     * 
+     * @ORM\Column(name="created_at", type="datetime")
      */
     protected $createdAt;
     
     /**
      * @var \DateTime
+     * 
+     * @ORM\Column(name="updated_at", type="datetime")
      */
     protected $updatedAt;
     

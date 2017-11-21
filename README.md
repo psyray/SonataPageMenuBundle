@@ -9,6 +9,7 @@ It gives a lot of enhancements, like
 * User restrict a menu,
 * Set an icon on a menu item,
 * Choose between **standard** an **boostrap** template
+* Define more than one menu with menu types
 * and maybe many more coming
 
 This fork has waiting PRs to be merged, but I don't know if, and when the author will merge it into master branch.
@@ -35,19 +36,25 @@ So to install this bundle :
 
 ## Usage
 
-To use this bundle simply add this include to the template where you want the menu to appear 
+To use this bundle simply add this include to the template where you want the menu to appear, based on menu type id 
 ```
-{% include 'SkillbertoSonataPageMenuBundle:Menu:menu.html.twig' %}
+{% include 'SkillbertoSonataPageMenuBundle:Menu:menu.html.twig' with {'type': 1} %}
 ```
 
-You could choose between two templates, **Standard** and **Bootstrap**
+You could choose between two templates, **standard** and **sootstrap**
 
-Default value is **Standard**.
+Default value is **standard**.
 
 If you want the Bootstrap template simply add to your config.yml (and of course you should have the bootstrap CSS/JS loaded)
 ```
 skillberto_sonata_page_menu:
     template: bootstrap
+```
+
+Template could also be overrided in the include, like this
+
+```
+{% include 'SkillbertoSonataPageMenuBundle:Menu:menu.html.twig' with {'type': 1, 'template': 'bootstrap'} %}
 ```
 
 Full options is (with default values), you could tweak the bootstrap navbar here

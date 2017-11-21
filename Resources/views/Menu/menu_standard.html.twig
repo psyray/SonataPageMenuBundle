@@ -1,1 +1,2 @@
-{{ knp_menu_render('main') }}
+{% set menu = knp_menu_get('main', [], {'type': type} ) %}
+{{ knp_menu_render(menu) }}

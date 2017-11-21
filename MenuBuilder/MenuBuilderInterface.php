@@ -14,7 +14,7 @@ interface MenuBuilderInterface {
     /**
      * @return ItemInterface
      */
-    public function getMenu();
+    public function getMenu(array $options);
 
     /**
      * @return null|string

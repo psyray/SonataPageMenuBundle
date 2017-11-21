@@ -78,6 +78,16 @@ class Menu
     protected $lvl;
     
     /**
+     * @var string
+     *
+     * @ORM\ManyToOne(targetEntity="MenuType",inversedBy="menus")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="type", referencedColumnName="id", onDelete="SET NULL")
+     * })
+     */
+    protected $type;
+    
+    /**
      * @var \Doctrine\Common\Collections\Collection
      * 
      * @ORM\OneToMany(targetEntity="Menu", mappedBy="parent")
@@ -340,6 +350,33 @@ class Menu
     public function getLvl()
     {
         return $this->lvl;
+    }
+    
+    /**
+     * Set type
+     *
+     * @param string $type
+     * @return Menu
+     */
+    public function setType($type)
+    {
+        if(null !== $this->getParent() && $this->getParent()->getType() <> $type) {
+            $this->type = $this->getParent()->getType();
+        } else {
+            $this->type = $type;
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
     }
     
     /**

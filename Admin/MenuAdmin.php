@@ -15,6 +15,12 @@ use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\PageBundle\Model\PageManagerInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Sonata\PageBundle\Form\Type\PageSelectorType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Sonata\AdminBundle\Form\Type\ModelType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Sonata\AdminBundle\Form\Type\Filter\ChoiceType as ChoiceTypeFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 
 class MenuAdmin extends AbstractAdmin
 {
@@ -165,8 +171,9 @@ class MenuAdmin extends AbstractAdmin
         }
 
         $formMapper
-             ->add('name', 'text')
-             ->add('icon', 'text', array('required' => false))
+             ->add('name', TextType::class)
+             ->add('icon', TextType::class, array('required' => false))
+             ->add('type')
              ->add('page', PageSelectorType::class, array(
                         'site'          => $this->siteInstance,
                         'model_manager' => $this->getModelManager(),
@@ -178,11 +185,11 @@ class MenuAdmin extends AbstractAdmin
                             'siteId' => $this->getSubject() ? $this->getSubject()->getSite()->getId() : null
                         )
                     ))
-             ->add('parent', 'sonata_type_model', array('required' => false))
-             ->add('active', 'checkbox', array('required' => false, 'attr' => $this->formAttribute))
-             ->add('clickable', 'checkbox', array('required' => false, 'attr' => $this->formAttribute))
-             ->add('userRestricted', 'checkbox', array('required' => false))
-             ->add('hideWhenUserConnected', 'checkbox', array('required' => false))
+             ->add('parent', ModelType::class, array('required' => false))
+             ->add('active', CheckboxType::class, array('required' => false, 'attr' => $this->formAttribute))
+             ->add('clickable', CheckboxType::class, array('required' => false, 'attr' => $this->formAttribute))
+             ->add('userRestricted', CheckboxType::class, array('required' => false))
+             ->add('hideWhenUserConnected', CheckboxType::class, array('required' => false))
              ;
     }
 
@@ -200,6 +207,7 @@ class MenuAdmin extends AbstractAdmin
             ->add('name', 'string', array('template' => 'SkillbertoSonataPageMenuBundle:Admin:base_list_field.html.twig'))
             ->add('icon', 'string', array('template' => 'SkillbertoSonataPageMenuBundle:Admin:base_list_field.html.twig'))
             ->add('page')
+            ->add('type')
             ->add('parent')
             ->add('active')
             ->add('clickable')
@@ -228,7 +236,8 @@ class MenuAdmin extends AbstractAdmin
             ->add('name')
             ->add('page')
             ->add('parent')
-        ;
+            ->add('type')
+            ;
     }
 
     protected function initializeEditForm()

@@ -43,7 +43,7 @@ class MenuRepository extends NestedTreeRepository
         return $qb->getQuery()->getResult();
     }
     
-    public function getMenus(Site $site)
+    public function getMenus(Site $site, $type)
     {
         $qb = $this->createQueryBuilder('m')
         ->select('m','p','s','mp','mc')
@@ -53,7 +53,9 @@ class MenuRepository extends NestedTreeRepository
         ->leftJoin('m.site', 's')
         ->where('m.site = :site')
         ->andWhere('m.parent IS NULL')
+        ->andWhere('m.type = :type')
         ->setParameter('site', $site)
+        ->setParameter('type', $type)
         ->addOrderBy('m.root', 'ASC')
         ->addOrderBy('m.lft', 'ASC')
         ;

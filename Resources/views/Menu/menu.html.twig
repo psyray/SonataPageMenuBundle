@@ -1,1 +1,13 @@
-{% include 'SkillbertoSonataPageMenuBundle:Menu:menu_' ~ sonata_page_menu.template ~ '.html.twig' %}
+{% if type is not defined %}
+    {% set type = 1 %}
+{% endif %}
+
+{% if fixed is not defined %}
+    {% set fixed = false %}
+{% endif %}
+
+{% if template is not defined %}
+    {% set template = sonata_page_menu.template %}
+{% endif %}
+
+{% include 'SkillbertoSonataPageMenuBundle:Menu:menu_' ~ template ~ '.html.twig' with {'type' : type, 'fixed' : fixed} %}

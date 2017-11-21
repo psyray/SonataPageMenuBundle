@@ -19,11 +19,7 @@
             <argument type="service" id="sonata.page.router" />
             <argument type="service" id="sonata.page.site.selector" />
             <argument type="service" id="security.authorization_checker" />
-        </service>
-
-        <service id="skillberto.sonatamenu.main" class="Knp\Menu\MenuItem" >
-            <factory service="skillberto.sonatamenu.builder.main" method="getMenu" />
-            <tag name="knp_menu.menu" alias="main" />
+            <tag name="knp_menu.menu_builder"  method="getMenu" alias="main" />
         </service>
 
         <service id="skillberto.system.admin.sonatamenu" class="Skillberto\SonataPageMenuBundle\Admin\MenuAdmin" >

@@ -1,5 +1,5 @@
 {% set navbar_brand = sonata_page_menu.bootstrap_options.navbar_brand %}
-<nav class="navbar navbar-default navbar-fixed-top">
+<nav class="navbar navbar-default {% if fixed %}navbar-fixed-top{% endif %}">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -17,7 +17,8 @@
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="main-menu-collapse">
-            {{ knp_menu_render('main', {'currentClass': 'active', 'template': 'SkillbertoSonataPageMenuBundle:Menu:knp_bootstrap_menu.html.twig'}) }}
+            {% set menu = knp_menu_get('main', [], {'type': type} ) %}
+            {{ knp_menu_render(menu, {'currentClass': 'active', 'template': 'SkillbertoSonataPageMenuBundle:Menu:knp_bootstrap_menu.html.twig'}) }}
         </div>
         <!-- /.navbar-collapse -->
     </div>

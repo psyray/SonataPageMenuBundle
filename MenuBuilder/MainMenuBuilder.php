@@ -12,6 +12,7 @@ use Symfony\Cmf\Component\Routing\ChainedRouterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Skillberto\SonataPageMenuBundle\Entity\MenuType;
 
 class MainMenuBuilder implements MenuBuilderInterface
 {
@@ -26,7 +27,8 @@ class MainMenuBuilder implements MenuBuilderInterface
     protected $request;
     protected $authorizationChecker;
 
-    public function __construct($menuEntity, FactoryInterface $factoryInterface, ManagerRegistry $managerRegistry, RequestStack $requestStack, ChainedRouterInterface $routerInterface, SiteSelectorInterface $siteSelectorInterface, AuthorizationCheckerInterface $authorizationChecker)
+    public function __construct($menuEntity, FactoryInterface $factoryInterface, ManagerRegistry $managerRegistry, RequestStack $requestStack, ChainedRouterInterface $routerInterface, 
+                                SiteSelectorInterface $siteSelectorInterface, AuthorizationCheckerInterface $authorizationChecker)
     {
         $this->menuEntity               = $menuEntity;
         $this->factoryInterface         = $factoryInterface;
@@ -37,13 +39,14 @@ class MainMenuBuilder implements MenuBuilderInterface
         $this->authorizationChecker     = $authorizationChecker;
     }
     
-    public function getMenu()
+    public function getMenu(array $options)
     {
-        if ($this->rendered === false) {
-            $this->renderMenu();
-
-            $this->rendered = true;
+        $menuType = $this->managerRegistry->getRepository('SkillbertoSonataPageMenuBundle:MenuType')->findOneById($options['type']);
+        if(null === $menuType) {
+            return;
         }
+        $this->renderMenu($menuType);
+
 
         return $this->mainMenu;
     }
@@ -53,12 +56,13 @@ class MainMenuBuilder implements MenuBuilderInterface
         return $this->currentMenuName;
     }
 
-    protected function renderMenu()
+    
+    protected function renderMenu(MenuType $menuType)
     {
         $site    = $this->siteSelectorInterface->retrieve();
 
         //$menus   = $this->managerRegistry->getRepository($this->menuEntity)->findBy(array("site" => $site->getId(), "parent" => null), array("root" => "ASC", "lft" => "ASC"));
-        $menus   = $this->managerRegistry->getRepository($this->menuEntity)->getMenus($site);
+        $menus   = $this->managerRegistry->getRepository($this->menuEntity)->getMenus($site, $menuType);
 
         if (count($menus) == 0) {
             $this->mainMenu = $this->factoryInterface->createItem('root');

@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Skillberto\SonataPageMenuBundle\Entity\MenuType;
+use Knp\Menu\Matcher\Matcher;
+use Knp\Menu\Matcher\Voter\UriVoter;
 
 class MainMenuBuilder implements MenuBuilderInterface
 {
@@ -126,7 +128,9 @@ class MainMenuBuilder implements MenuBuilderInterface
             $this->createLink($current, $menu);
         }
 
-        if ($this->request->get('page') && $menu->getPage() && $menu->getPage()->getId() == $this->request->get('page')->getId()) {
+        $matcher = new Matcher();
+        $matcher->addVoter(new UriVoter($_SERVER['REQUEST_URI']));
+        if ($matcher->isCurrent($current)) {
             $current->setCurrent(true);
             $this->currentMenuName = $menu->getName();
         }

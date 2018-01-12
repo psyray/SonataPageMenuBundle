@@ -106,6 +106,13 @@ class Menu
     protected $page;
     
     /**
+     * @var string
+     *
+     * @ORM\Column(name="url", type="string", length=255, nullable=true)
+     */
+    protected $url;
+    
+    /**
      * @var \Application\Sonata\PageBundle\Entity\Site
      * 
      * @ORM\ManyToOne(targetEntity="\Application\Sonata\PageBundle\Entity\Site")
@@ -139,6 +146,13 @@ class Menu
      * @ORM\Column(name="active", type="boolean", nullable=false)
      */
     protected $active = false;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="target", type="string", nullable=true)
+     */
+    protected $target;
     
     /**
      * @var boolean
@@ -526,6 +540,52 @@ class Menu
     public function getActive()
     {
         return $this->active;
+    }
+    
+    /**
+     * Set target
+     *
+     * @param string $target
+     * @return Menu
+     */
+    public function setTarget($target)
+    {
+        $this->target = $target;
+        
+        return $this;
+    }
+    
+    /**
+     * Get target
+     *
+     * @return string
+     */
+    public function getTarget()
+    {
+        return $this->target;
+    }
+    
+    /**
+     * Set url
+     *
+     * @param string $url
+     * @return Menu
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+        
+        return $this;
+    }
+    
+    /**
+     * Get url
+     *
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
     }
     
     /**

@@ -124,7 +124,7 @@ class MainMenuBuilder implements MenuBuilderInterface
     {
         $current = $this->factoryInterface->createItem($menu->getName(), array('label' => $menu->getName()));
 
-        if ($menu->getClickable()) {
+        if ($menu->getClickable() && null !== $menu->getPage()) {
             $this->createLink($current, $menu);
         }
 

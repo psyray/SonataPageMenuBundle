@@ -173,18 +173,31 @@ class MenuAdmin extends AbstractAdmin
         $formMapper
              ->add('name', TextType::class)
              ->add('icon', TextType::class, array('required' => false))
-             ->add('type')
+             ->add('type', null, ['label' => 'Position'])
              ->add('page', PageSelectorType::class, array(
                         'site'          => $this->siteInstance,
                         'model_manager' => $this->getModelManager(),
                         'class'         => 'Application\Sonata\PageBundle\Entity\Page',
-                        'required'      => true
+                        'required'      => false
              ), array(
                         'admin_code' => 'sonata.page.admin.page',
                         'link_parameters' => array(
                             'siteId' => $this->getSubject() ? $this->getSubject()->getSite()->getId() : null
                         )
-                    ))
+                    )
+                 )
+             ->add('url')
+             ->add('target', ChoiceType::class,[
+                 'choices' => [
+                     '_blank'  => 'Nouvelle fenêtre',
+                     '_parent' => 'Parente',
+                     '_self' => 'Courante',
+                     '_top' => 'Pleine page'
+                 ],
+                 'label' => 'Cible',
+                 'expanded' => false,
+                 'required' => false
+             ])
              ->add('parent', ModelType::class, array('required' => false))
              ->add('active', CheckboxType::class, array('required' => false, 'attr' => $this->formAttribute))
              ->add('clickable', CheckboxType::class, array('required' => false, 'attr' => $this->formAttribute))
@@ -204,10 +217,10 @@ class MenuAdmin extends AbstractAdmin
 
         $listMapper
             ->addIdentifier('id')
-            ->add('name', 'string', array('template' => 'SkillbertoSonataPageMenuBundle:Admin:base_list_field.html.twig'))
+            ->addIdentifier('name', 'string', array('template' => 'SkillbertoSonataPageMenuBundle:Admin:base_list_field.html.twig'))
             ->add('icon', 'string', array('template' => 'SkillbertoSonataPageMenuBundle:Admin:base_list_field.html.twig'))
             ->add('page')
-            ->add('type')
+            ->add('type', null, ['label' => 'Position'])
             ->add('parent')
             ->add('active')
             ->add('clickable')
@@ -236,7 +249,7 @@ class MenuAdmin extends AbstractAdmin
             ->add('name')
             ->add('page')
             ->add('parent')
-            ->add('type')
+            ->add('type', null, ['label' => 'Position'])
             ;
     }
 

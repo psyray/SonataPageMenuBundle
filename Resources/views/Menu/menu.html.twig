@@ -3,11 +3,19 @@
 {% endif %}
 
 {% if fixed is not defined %}
-    {% set fixed = false %}
+    {% set fixed = sonata_page_menu.bootstrap_options.fixed %}
+{% endif %}
+
+{% if inverse is not defined %}
+    {% set inverse = sonata_page_menu.bootstrap_options.inverse %}
+{% endif %}
+
+{% if toggle is not defined %}
+    {% set toggle = sonata_page_menu.bootstrap_options.toggle %}
 {% endif %}
 
 {% if template is not defined %}
     {% set template = sonata_page_menu.template %}
 {% endif %}
 
-{% include 'SkillbertoSonataPageMenuBundle:Menu:menu_' ~ template ~ '.html.twig' with {'type' : type, 'fixed' : fixed} %}
+{% include 'SkillbertoSonataPageMenuBundle:Menu:menu_' ~ template ~ '.html.twig' with {'type' : type, 'fixed' : fixed, 'inverse' : inverse, 'toggle' : toggle} %}

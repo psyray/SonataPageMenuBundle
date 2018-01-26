@@ -41,7 +41,7 @@ To use this bundle simply add this include to the template where you want the me
 {% include 'SkillbertoSonataPageMenuBundle:Menu:menu.html.twig' with {'type': 1} %}
 ```
 
-You could choose between two templates, **standard** and **sootstrap**
+You could choose between two templates, **standard** and **bootstrap**
 
 Default value is **standard**.
 
@@ -54,14 +54,19 @@ skillberto_sonata_page_menu:
 Template could also be overrided in the include, like this
 
 ```
-{% include 'SkillbertoSonataPageMenuBundle:Menu:menu.html.twig' with {'type': 1, 'template': 'bootstrap'} %}
+{% include 'SkillbertoSonataPageMenuBundle:Menu:menu.html.twig' with {'type': 1, 'template': 'bootstrap', 'fixed': false, 'inverse': false, 'toggle': 'collapse'} %}
 ```
+
+Type is the database id of the menu type (main, footer...) 
 
 Full options is (with default values), you could tweak the bootstrap navbar here
 ```
 skillberto_sonata_page_menu:
     template: standard
     bootstrap_options:
+        fixed: false
+        inverse: false
+        toggle: collapse
         navbar_brand:
             displayed: true
             title: "My company"

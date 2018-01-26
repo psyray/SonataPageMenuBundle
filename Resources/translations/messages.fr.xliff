@@ -46,6 +46,62 @@
                 <source>label_menu</source>
                 <target>Menu</target>
             </trans-unit>
+            <trans-unit id="12">
+                <source>onglet_informations</source>
+                <target>Informations</target>
+            </trans-unit>
+            <trans-unit id="13">
+                <source>onglet_options</source>
+                <target>Options</target>
+            </trans-unit>
+            <trans-unit id="14">
+                <source>Name</source>
+                <target>Nom</target>
+            </trans-unit>
+            <trans-unit id="15">
+                <source>Icon</source>
+                <target>Icône</target>
+            </trans-unit>
+            <trans-unit id="16">
+                <source>Active</source>
+                <target>Actif</target>
+            </trans-unit>
+            <trans-unit id="17">
+                <source>Clickable</source>
+                <target>Cliquable</target>
+            </trans-unit>
+            <trans-unit id="18">
+                <source>User Restricted</source>
+                <target>Afficher quand l'utilisateur est connecté</target>
+            </trans-unit>
+            <trans-unit id="19">
+                <source>Hide When User Connected</source>
+                <target>Cacher quand l'utilisateur est connecté</target>
+            </trans-unit>
+            <trans-unit id="20">
+                <source>Attribute</source>
+                <target>Attribut</target>
+            </trans-unit>
+            <trans-unit id="21">
+                <source>New window</source>
+                <target>Nouvelle fenêtre</target>
+            </trans-unit>
+            <trans-unit id="22">
+                <source>Parent</source>
+                <target>Parente</target>
+            </trans-unit>
+            <trans-unit id="23">
+                <source>Current</source>
+                <target>Courante</target>
+            </trans-unit>
+            <trans-unit id="24">
+                <source>On top</source>
+                <target>Au-dessus</target>
+            </trans-unit>
+            <trans-unit id="25">
+                <source>Parent menu</source>
+                <target>Menu parent</target>
+            </trans-unit>
             <trans-unit id="action_activate">
                 <source>action_activate</source>
                 <target>Activer</target>

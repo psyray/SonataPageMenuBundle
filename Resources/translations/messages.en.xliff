@@ -46,6 +46,14 @@
                 <source>label_menu</source>
                 <target>Menu</target>
             </trans-unit>
+            <trans-unit id="12">
+                <source>onglet_informations</source>
+                <target>Informations</target>
+            </trans-unit>
+            <trans-unit id="13">
+                <source>onglet_options</source>
+                <target>Options</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

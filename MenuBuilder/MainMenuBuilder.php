@@ -134,6 +134,13 @@ class MainMenuBuilder implements MenuBuilderInterface
         if($menu->getTarget() !== null && $menu->getTarget() !== '_self') {
             $current->setLinkAttribute('target', $menu->getTarget());
         }
+
+        $attributes = $menu->getAttribute();
+        if($attributes !== null && count($attributes) > 0) {
+            foreach ($attributes as $attribute) {
+                $current->setLinkAttribute($attribute['type'],$attribute['value']);
+            }
+        }
         
         $matcher = new Matcher();
         $matcher->addVoter(new UriVoter($_SERVER['REQUEST_URI']));

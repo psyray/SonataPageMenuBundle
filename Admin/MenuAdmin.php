@@ -21,6 +21,8 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Sonata\AdminBundle\Form\Type\Filter\ChoiceType as ChoiceTypeFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
+use Sonata\AdminBundle\Form\Type\CollectionType;
+use Skillberto\SonataPageMenuBundle\Form\Type\AttributeType;
 
 class MenuAdmin extends AbstractAdmin
 {
@@ -171,8 +173,12 @@ class MenuAdmin extends AbstractAdmin
         }
 
         $formMapper
+            ->with('onglet_informations', [
+                'class' => 'col-sm-12 col-md-6',
+            ])
              ->add('name', TextType::class)
              ->add('icon', TextType::class, array('required' => false))
+             ->add('parent', ModelType::class, array('required' => false, 'label' => 'Parent menu'))
              ->add('type', null, ['label' => 'Position'])
              ->add('page', PageSelectorType::class, array(
                         'site'          => $this->siteInstance,
@@ -187,22 +193,32 @@ class MenuAdmin extends AbstractAdmin
                     )
                  )
              ->add('url')
-             ->add('target', ChoiceType::class,[
-                 'choices' => [
-                     '_blank'  => 'Nouvelle fenêtre',
-                     '_parent' => 'Parente',
-                     '_self' => 'Courante',
-                     '_top' => 'Pleine page'
-                 ],
-                 'label' => 'Cible',
-                 'expanded' => false,
-                 'required' => false
+            ->end()
+            ->with('onglet_options', [
+                'class' => 'col-sm-12 col-md-6',
+            ])
+            ->add('active', CheckboxType::class, array('required' => false, 'attr' => $this->formAttribute))
+            ->add('clickable', CheckboxType::class, array('required' => false, 'attr' => $this->formAttribute))
+            ->add('userRestricted', CheckboxType::class, array('required' => false))
+            ->add('hideWhenUserConnected', CheckboxType::class, array('required' => false))
+            ->add('target', ChoiceType::class,[
+                'choices' => [
+                    'New window'  => '_blank',
+                    'Parent' => '_parent',
+                    'Current' => '_self',
+                    'On top' => '_top'
+                ],
+                'label' => 'Cible',
+                'expanded' => false,
+                'required' => false
+            ])
+            ->add('attribute', CollectionType::class, [
+                 'entry_type' => AttributeType::class,
+                 'entry_options' => array('label' => false),
+                 'allow_add' => true,
+                 'allow_delete' => true,
              ])
-             ->add('parent', ModelType::class, array('required' => false))
-             ->add('active', CheckboxType::class, array('required' => false, 'attr' => $this->formAttribute))
-             ->add('clickable', CheckboxType::class, array('required' => false, 'attr' => $this->formAttribute))
-             ->add('userRestricted', CheckboxType::class, array('required' => false))
-             ->add('hideWhenUserConnected', CheckboxType::class, array('required' => false))
+             ->end()
              ;
     }
 

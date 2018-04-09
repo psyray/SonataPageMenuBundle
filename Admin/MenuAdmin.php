@@ -183,7 +183,7 @@ class MenuAdmin extends AbstractAdmin
              ->add('page', PageSelectorType::class, array(
                         'site'          => $this->siteInstance,
                         'model_manager' => $this->getModelManager(),
-                        'class'         => 'Application\Sonata\PageBundle\Entity\Page',
+                        'class'         => 'App\Application\Sonata\PageBundle\Entity\Page',
                         'required'      => false
              ), array(
                         'admin_code' => 'sonata.page.admin.page',

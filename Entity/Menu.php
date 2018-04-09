@@ -7,7 +7,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Menu
- * 
+ *
  * @Gedmo\Tree(type="nested")
  * @ORM\Table(name="skillberto__menu")
  * @ORM\Entity(repositoryClass="Skillberto\SonataPageMenuBundle\Entity\Repository\MenuRepository")
@@ -17,7 +17,7 @@ class Menu
 {
     /**
      * @var integer
-     * 
+     *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -26,28 +26,28 @@ class Menu
     
     /**
      * @var string
-     * 
+     *
      * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
     protected $name;
     
     /**
      * @var string
-     * 
+     *
      * @ORM\Column(name="icon", type="string", length=255, nullable=true)
      */
     protected $icon;
     
     /**
      * @var boolean
-     * 
+     *
      * @ORM\Column(name="clickable", type="boolean", nullable=false)
      */
     protected $clickable = true;
     
     /**
      * @var integer
-     * 
+     *
      * @Gedmo\TreeLeft
      * @ORM\Column(name="lft", type="integer", nullable=false)
      */
@@ -55,7 +55,7 @@ class Menu
     
     /**
      * @var integer
-     * 
+     *
      * @Gedmo\TreeRight
      * @ORM\Column(name="rgt", type="integer", nullable=false)
      */
@@ -63,7 +63,7 @@ class Menu
     
     /**
      * @var integer
-     * 
+     *
      * @Gedmo\TreeRoot
      * @ORM\Column(name="root", type="integer", nullable=true)
      */
@@ -71,7 +71,7 @@ class Menu
     
     /**
      * @var integer
-     * 
+     *
      * @Gedmo\TreeLevel
      * @ORM\Column(name="lvl", type="integer", nullable=false)
      */
@@ -89,16 +89,16 @@ class Menu
     
     /**
      * @var \Doctrine\Common\Collections\Collection
-     * 
+     *
      * @ORM\OneToMany(targetEntity="Menu", mappedBy="parent")
      * @ORM\OrderBy({"lft" = "ASC"})
      */
     protected $children;
     
     /**
-     * @var \Application\Sonata\PageBundle\Entity\Page
-     * 
-     * @ORM\ManyToOne(targetEntity="\Application\Sonata\PageBundle\Entity\Page")
+     * @var \App\Application\Sonata\PageBundle\Entity\Page
+     *
+     * @ORM\ManyToOne(targetEntity="\App\Application\Sonata\PageBundle\Entity\Page")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="page_id", referencedColumnName="id", onDelete="SET NULL")
      * })
@@ -113,9 +113,9 @@ class Menu
     protected $url;
     
     /**
-     * @var \Application\Sonata\PageBundle\Entity\Site
-     * 
-     * @ORM\ManyToOne(targetEntity="\Application\Sonata\PageBundle\Entity\Site")
+     * @var \App\Application\Sonata\PageBundle\Entity\Site
+     *
+     * @ORM\ManyToOne(targetEntity="\App\Application\Sonata\PageBundle\Entity\Site")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="site_id", referencedColumnName="id", onDelete="SET NULL")
      * })
@@ -124,7 +124,7 @@ class Menu
     
     /**
      * @var Menu
-     * 
+     *
      * @Gedmo\TreeParent
      * @ORM\ManyToOne(targetEntity="Menu", inversedBy="children")
      * @ORM\JoinColumns({
@@ -135,14 +135,14 @@ class Menu
     
     /**
      * @var array
-     * 
+     *
      * @ORM\Column(name="attribute", type="array")
      */
     protected $attribute;
     
     /**
      * @var boolean
-     * 
+     *
      * @ORM\Column(name="active", type="boolean", nullable=false)
      */
     protected $active = false;
@@ -156,28 +156,28 @@ class Menu
     
     /**
      * @var boolean
-     * 
+     *
      * @ORM\Column(name="user_restricted", type="boolean", nullable=false)
      */
     protected $userRestricted = false;
     
     /**
      * @var boolean
-     * 
+     *
      * @ORM\Column(name="hide_when_userconnected", type="boolean", nullable=false)
      */
     protected $hideWhenUserConnected = false;
     
     /**
      * @var \DateTime
-     * 
+     *
      * @ORM\Column(name="created_at", type="datetime")
      */
     protected $createdAt;
     
     /**
      * @var \DateTime
-     * 
+     *
      * @ORM\Column(name="updated_at", type="datetime")
      */
     protected $updatedAt;
@@ -429,10 +429,10 @@ class Menu
     /**
      * Set page
      *
-     * @param \Application\Sonata\PageBundle\Entity\Page $page
+     * @param \App\Application\Sonata\PageBundle\Entity\Page $page
      * @return Menu
      */
-    public function setPage(\Application\Sonata\PageBundle\Entity\Page $page = null)
+    public function setPage(\App\Application\Sonata\PageBundle\Entity\Page $page = null)
     {
         $this->page = $page;
         
@@ -442,7 +442,7 @@ class Menu
     /**
      * Get page
      *
-     * @return \Application\Sonata\PageBundle\Entity\Page
+     * @return \App\Application\Sonata\PageBundle\Entity\Page
      */
     public function getPage()
     {
@@ -452,10 +452,10 @@ class Menu
     /**
      * Set site
      *
-     * @param \Application\Sonata\PageBundle\Entity\Site $site
+     * @param \App\Application\Sonata\PageBundle\Entity\Site $site
      * @return Menu
      */
-    public function setSite(\Application\Sonata\PageBundle\Entity\Site $site = null)
+    public function setSite(\App\Application\Sonata\PageBundle\Entity\Site $site = null)
     {
         $this->site = $site;
         
@@ -465,7 +465,7 @@ class Menu
     /**
      * Get site
      *
-     * @return \Application\Sonata\PageBundle\Entity\Site
+     * @return \App\Application\Sonata\PageBundle\Entity\Site
      */
     public function getSite()
     {

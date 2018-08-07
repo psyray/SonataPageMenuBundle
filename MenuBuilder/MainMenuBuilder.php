@@ -5,17 +5,13 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 use Skillberto\SonataPageMenuBundle\Entity\Menu;
-use Sonata\PageBundle\Entity\PageManager;
-use Sonata\PageBundle\Route\CmsPageRouter;
 use Sonata\PageBundle\Site\SiteSelectorInterface;
 use Symfony\Cmf\Component\Routing\ChainedRouterInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Skillberto\SonataPageMenuBundle\Entity\MenuType;
 use Knp\Menu\Matcher\Matcher;
 use Knp\Menu\Matcher\Voter\UriVoter;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Security;
 
 class MainMenuBuilder implements MenuBuilderInterface
 {
@@ -28,11 +24,10 @@ class MainMenuBuilder implements MenuBuilderInterface
     protected $rendered = false;
     protected $mainMenu;
     protected $request;
-    protected $authorizationChecker;
-    protected $tokenStorage;
+    protected $securityHelper;
     
     public function __construct($menuEntity, FactoryInterface $factoryInterface, ManagerRegistry $managerRegistry, RequestStack $requestStack, ChainedRouterInterface $routerInterface,
-        SiteSelectorInterface $siteSelectorInterface, AuthorizationCheckerInterface $authorizationChecker, TokenStorageInterface $tokenStorage)
+        SiteSelectorInterface $siteSelectorInterface, Security $securityHelper)
     {
         $this->menuEntity               = $menuEntity;
         $this->factoryInterface         = $factoryInterface;
@@ -40,8 +35,7 @@ class MainMenuBuilder implements MenuBuilderInterface
         $this->request                  = $requestStack->getCurrentRequest();
         $this->routerInterface          = $routerInterface;
         $this->siteSelectorInterface    = $siteSelectorInterface;
-        $this->authorizationChecker     = $authorizationChecker;
-        $this->tokenStorage             = $tokenStorage;
+        $this->securityHelper           = $securityHelper;
     }
     
     public function getMenu(array $options)
@@ -88,39 +82,44 @@ class MainMenuBuilder implements MenuBuilderInterface
     protected function createMenu(Menu $menu, ItemInterface $root = null)
     {
         if((null !== $menu->getParent() && $menu->getParent()->getUserRestricted() || $menu->getUserRestricted()) &&
-            ($this->tokenStorage->getToken() && !$this->authorizationChecker->isGranted('ROLE_USER'))) {
+            null === $this->securityHelper->getToken()) {
                 return false;
-        }
-        
-        if($menu->getHideWhenUserConnected() && ($this->tokenStorage->getToken() && $this->authorizationChecker->isGranted('ROLE_USER'))) {
-            return false;
-        }
-        
-        $currentItem = $this->createMenuItem($menu);
-        
-        $level = $menu->getLvl();
-        
-        if ($level == 0) {
-            $this->mainMenu = $currentItem;
-        } else {
-            $currentMenu = $root->addChild($currentItem);
-            if (null !== $menu->getIcon()) {
-                $currentMenu->setExtra('icon', $menu->getIcon());
-            }
-            if ($level == 1 && $menu->getChildren()->count() > 0) {
-                $currentMenu->setExtra('dropdown', true);
-            }
-        }
-        
-        if (count($menu->getChildren()) > 0 && ($menu->getActive() or $level == 0)) {
-            if ($level == 0) {
-                $this->putRootAttributes($currentItem);
-            } else {
-                $this->putChildAttributes($currentItem);
             }
             
-            $this->createMenuStructure($menu->getChildren(), $currentItem);
-        }
+            if((null !== $menu->getParent() && $menu->getParent()->getUserRestricted() || $menu->getUserRestricted()) &&
+                null !== $this->securityHelper->getToken() && !$this->securityHelper->isGranted('IS_AUTHENTICATED_FULLY')) {
+                    return false;
+                }
+                
+                if($menu->getHideWhenUserConnected() && null !== $this->securityHelper->getToken() && $this->securityHelper->isGranted('IS_AUTHENTICATED_FULLY')) {
+                    return false;
+                }
+                
+                $currentItem = $this->createMenuItem($menu);
+                
+                $level = $menu->getLvl();
+                
+                if ($level == 0) {
+                    $this->mainMenu = $currentItem;
+                } else {
+                    $currentMenu = $root->addChild($currentItem);
+                    if (null !== $menu->getIcon()) {
+                        $currentMenu->setExtra('icon', $menu->getIcon());
+                    }
+                    if ($level == 1 && $menu->getChildren()->count() > 0) {
+                        $currentMenu->setExtra('dropdown', true);
+                    }
+                }
+                
+                if (count($menu->getChildren()) > 0 && ($menu->getActive() or $level == 0)) {
+                    if ($level == 0) {
+                        $this->putRootAttributes($currentItem);
+                    } else {
+                        $this->putChildAttributes($currentItem);
+                    }
+                    
+                    $this->createMenuStructure($menu->getChildren(), $currentItem);
+                }
     }
     
     protected function createMenuItem(Menu $menu)
@@ -137,7 +136,7 @@ class MainMenuBuilder implements MenuBuilderInterface
         if($menu->getTarget() !== null && $menu->getTarget() !== '_self') {
             $current->setLinkAttribute('target', $menu->getTarget());
         }
-
+        
         $attributes = $menu->getAttribute();
         if($attributes !== null && count($attributes) > 0) {
             foreach ($attributes as $attribute) {

@@ -18,8 +18,7 @@
             <argument type="service" id="request_stack" />
             <argument type="service" id="sonata.page.router" />
             <argument type="service" id="sonata.page.site.selector" />
-            <argument type="service" id="security.authorization_checker" />
-            <argument type="service" id="security.token_storage" />
+            <argument type="service" id="security.helper" />
             <tag name="knp_menu.menu_builder"  method="getMenu" alias="main" />
         </service>
 

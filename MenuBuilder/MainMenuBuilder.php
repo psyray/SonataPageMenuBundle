@@ -90,37 +90,37 @@ class MainMenuBuilder implements MenuBuilderInterface
         if((null !== $menu->getParent() && $menu->getParent()->getUserRestricted() || $menu->getUserRestricted()) &&
             ($this->tokenStorage->getToken() && !$this->authorizationChecker->isGranted('ROLE_USER'))) {
                 return false;
+        }
+        
+        if($menu->getHideWhenUserConnected() && ($this->tokenStorage->getToken() && $this->authorizationChecker->isGranted('ROLE_USER'))) {
+            return false;
+        }
+        
+        $currentItem = $this->createMenuItem($menu);
+        
+        $level = $menu->getLvl();
+        
+        if ($level == 0) {
+            $this->mainMenu = $currentItem;
+        } else {
+            $currentMenu = $root->addChild($currentItem);
+            if (null !== $menu->getIcon()) {
+                $currentMenu->setExtra('icon', $menu->getIcon());
             }
-            
-            if($menu->getHideWhenUserConnected() && ($this->tokenStorage->getToken() && $this->authorizationChecker->isGranted('ROLE_USER'))) {
-                return false;
+            if ($level == 1 && $menu->getChildren()->count() > 0) {
+                $currentMenu->setExtra('dropdown', true);
             }
-            
-            $currentItem = $this->createMenuItem($menu);
-            
-            $level = $menu->getLvl();
-            
+        }
+        
+        if (count($menu->getChildren()) > 0 && ($menu->getActive() or $level == 0)) {
             if ($level == 0) {
-                $this->mainMenu = $currentItem;
+                $this->putRootAttributes($currentItem);
             } else {
-                $currentMenu = $root->addChild($currentItem);
-                if (null !== $menu->getIcon()) {
-                    $currentMenu->setExtra('icon', $menu->getIcon());
-                }
-                if ($level == 1 && $menu->getChildren()->count() > 0) {
-                    $currentMenu->setExtra('dropdown', true);
-                }
+                $this->putChildAttributes($currentItem);
             }
             
-            if (count($menu->getChildren()) > 0 && ($menu->getActive() or $level == 0)) {
-                if ($level == 0) {
-                    $this->putRootAttributes($currentItem);
-                } else {
-                    $this->putChildAttributes($currentItem);
-                }
-                
-                $this->createMenuStructure($menu->getChildren(), $currentItem);
-            }
+            $this->createMenuStructure($menu->getChildren(), $currentItem);
+        }
     }
     
     protected function createMenuItem(Menu $menu)

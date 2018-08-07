@@ -15,6 +15,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Skillberto\SonataPageMenuBundle\Entity\MenuType;
 use Knp\Menu\Matcher\Matcher;
 use Knp\Menu\Matcher\Voter\UriVoter;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class MainMenuBuilder implements MenuBuilderInterface
 {
@@ -28,9 +29,10 @@ class MainMenuBuilder implements MenuBuilderInterface
     protected $mainMenu;
     protected $request;
     protected $authorizationChecker;
+    protected $tokenStorage;
     
     public function __construct($menuEntity, FactoryInterface $factoryInterface, ManagerRegistry $managerRegistry, RequestStack $requestStack, ChainedRouterInterface $routerInterface,
-        SiteSelectorInterface $siteSelectorInterface, AuthorizationCheckerInterface $authorizationChecker)
+        SiteSelectorInterface $siteSelectorInterface, AuthorizationCheckerInterface $authorizationChecker, TokenStorageInterface $tokenStorage)
     {
         $this->menuEntity               = $menuEntity;
         $this->factoryInterface         = $factoryInterface;
@@ -39,6 +41,7 @@ class MainMenuBuilder implements MenuBuilderInterface
         $this->routerInterface          = $routerInterface;
         $this->siteSelectorInterface    = $siteSelectorInterface;
         $this->authorizationChecker     = $authorizationChecker;
+        $this->tokenStorage             = $tokenStorage;
     }
     
     public function getMenu(array $options)
@@ -85,11 +88,11 @@ class MainMenuBuilder implements MenuBuilderInterface
     protected function createMenu(Menu $menu, ItemInterface $root = null)
     {
         if((null !== $menu->getParent() && $menu->getParent()->getUserRestricted() || $menu->getUserRestricted()) &&
-            !$this->authorizationChecker->isGranted('ROLE_USER')) {
+            ($this->tokenStorage->getToken() && !$this->authorizationChecker->isGranted('ROLE_USER'))) {
                 return false;
             }
             
-            if($menu->getHideWhenUserConnected() && $this->authorizationChecker->isGranted('ROLE_USER')) {
+            if($menu->getHideWhenUserConnected() && ($this->tokenStorage->getToken() && $this->authorizationChecker->isGranted('ROLE_USER'))) {
                 return false;
             }
             

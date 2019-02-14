@@ -5,7 +5,7 @@ namespace Skillberto\SonataPageMenuBundle\Admin;
 use Skillberto\SonataPageMenuBundle\Util\PositionHandler;
 use Skillberto\SonataPageMenuBundle\Entity\Menu;
 use Skillberto\SonataPageMenuBundle\Site\OptionalSiteInterface;
-use Sonata\CoreBundle\Validator\ErrorElement;
+use Sonata\Form\Validator\ErrorElement;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -19,8 +19,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Sonata\AdminBundle\Form\Type\ModelType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Sonata\AdminBundle\Form\Type\Filter\ChoiceType as ChoiceTypeFilter;
-use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\AdminBundle\Form\Type\CollectionType;
 use Skillberto\SonataPageMenuBundle\Form\Type\AttributeType;
 

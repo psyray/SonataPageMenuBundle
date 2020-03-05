@@ -18,7 +18,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="{{ toggle }} navbar-{{ toggle }}" id="main-menu-{{ toggle }}">
             {% set menu = knp_menu_get('main', [], {'type': type} ) %}
-            {{ knp_menu_render(menu, {'currentClass': 'active', 'template': 'SkillbertoSonataPageMenuBundle:Menu:knp_bootstrap_menu.html.twig'}) }}
+            {{ knp_menu_render(menu, {'currentClass': 'active', 'template': '@SkillbertoSonataPageMenu/Menu/knp_bootstrap_menu.html.twig'}) }}
         </div>
         <!-- /.navbar-{{ toggle }} -->
     </div>

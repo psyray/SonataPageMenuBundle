@@ -18,4 +18,4 @@
     {% set template = sonata_page_menu.template %}
 {% endif %}
 
-{% include 'SkillbertoSonataPageMenuBundle:Menu:menu_' ~ template ~ '.html.twig' with {'type' : type, 'fixed' : fixed, 'inverse' : inverse, 'toggle' : toggle} %}
+{% include '@SkillbertoSonataPageMenu/Menu/menu_' ~ template ~ '.html.twig' with {'type' : type, 'fixed' : fixed, 'inverse' : inverse, 'toggle' : toggle} %}

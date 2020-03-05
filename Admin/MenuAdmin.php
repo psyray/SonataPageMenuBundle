@@ -231,8 +231,8 @@ class MenuAdmin extends AbstractAdmin
 
         $listMapper
             ->addIdentifier('id')
-            ->addIdentifier('name', 'string', array('template' => 'SkillbertoSonataPageMenuBundle:Admin:base_list_field.html.twig'))
-            ->add('icon', 'string', array('template' => 'SkillbertoSonataPageMenuBundle:Admin:base_list_field.html.twig'))
+            ->addIdentifier('name', 'string', array('template' => '@SkillbertoSonataPageMenu/Admin/base_list_field.html.twig'))
+            ->add('icon', 'string', array('template' => '@SkillbertoSonataPageMenu/Admin/base_list_field.html.twig'))
             ->add('page')
             ->add('type', null, ['label' => 'Position'])
             ->add('parent')
@@ -244,8 +244,8 @@ class MenuAdmin extends AbstractAdmin
                 'actions' => array(
                     'edit'      => array(),
                     'delete'    => array(),
-                    'activate'  => array('template' => 'SkillbertoSonataPageMenuBundle:Admin:list__action_activate.html.twig'),
-                    'move'      => array('template' => 'SkillbertoSonataPageMenuBundle:Admin:list__action_sort.html.twig')
+                    'activate'  => array('template' => '@SkillbertoSonataPageMenu/Admin/list__action_activate.html.twig'),
+                    'move'      => array('template' => '@SkillbertoSonataPageMenu/Admin/list__action_sort.html.twig')
                     )
                 )
             )

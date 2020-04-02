@@ -9,9 +9,9 @@ class Configuration implements ConfigurationInterface
 
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('skillberto_sonata_page_menu','array');
-        
+        $treeBuilder = new TreeBuilder('skillberto_sonata_page_menu');
+        $rootNode = $treeBuilder->getRootNode();
+
         $rootNode
             ->addDefaultsIfNotSet()
             ->children()

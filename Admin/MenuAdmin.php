@@ -21,6 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Sonata\AdminBundle\Form\Type\CollectionType;
 use Skillberto\SonataPageMenuBundle\Form\Type\AttributeType;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 
 class MenuAdmin extends AbstractAdmin
 {
@@ -66,14 +67,14 @@ class MenuAdmin extends AbstractAdmin
     }
 
     /**
-     * @param   string $context
+     * @param   ProxyQueryInterface $query
      *
-     * @return \Sonata\AdminBundle\Datagrid\ProxyQueryInterface
+     * @return ProxyQueryInterface $query
      */
-    public function createQuery($context = 'list')
+    public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        $query = parent::createQuery($context);
-
+        $query = parent::configureQuery($query);
+        
         $query->andWhere(
             $query->expr()->eq($query->getRootAlias() . '.site', ':my_param')
         );

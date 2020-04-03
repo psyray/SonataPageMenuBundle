@@ -1,4 +1,5 @@
 <?php
+
 namespace Skillberto\SonataPageMenuBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -6,7 +7,6 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder('skillberto_sonata_page_menu');
@@ -27,7 +27,7 @@ class Configuration implements ConfigurationInterface
                             ->info('Display the navbar in inverse color.')
                         ->end()
                         ->enumNode('toggle')
-                            ->values(array('collapse', 'offcanvas'))
+                            ->values(['collapse', 'offcanvas'])
                             ->defaultValue('collapse')
                             ->cannotBeEmpty()
                         ->end()
@@ -56,13 +56,13 @@ class Configuration implements ConfigurationInterface
                 ->end()
 
                 ->enumNode('template')
-                    ->values(array('standard', 'bootstrap'))
+                    ->values(['standard', 'bootstrap'])
                     ->defaultValue('standard')
                     ->cannotBeEmpty()
                 ->end()
             ->end()
         ;
-        
+
         return $treeBuilder;
     }
 }

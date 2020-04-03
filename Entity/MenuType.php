@@ -5,75 +5,76 @@ namespace Skillberto\SonataPageMenuBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * MenuType
- * 
+ * MenuType.
+ *
  * @ORM\Table(name="skillberto__menu_type")
  * @ORM\Entity
  */
 class MenuType
 {
     /**
-     * @var integer
-     * 
+     * @var int
+     *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-    
+
     /**
      * @var string
-     * 
+     *
      * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
     protected $name;
-    
+
     /**
      * @var string
-     * 
+     *
      * @ORM\OneToMany(targetEntity="Menu", mappedBy="type")
      * @ORM\OrderBy({"lft" = "ASC"})
      */
     protected $menus;
-    
+
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
         $this->menus = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     public function __toString()
     {
         return (string) $this->getName();
     }
-    
+
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
         return $this->id;
     }
-    
+
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
+     *
      * @return Menu
      */
     public function setName($name)
     {
         $this->name = $name;
-        
+
         return $this;
     }
-    
+
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -81,9 +82,9 @@ class MenuType
     {
         return $this->name;
     }
-    
+
     /**
-     * Get menus
+     * Get menus.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -91,5 +92,4 @@ class MenuType
     {
         return $this->menus;
     }
-    
 }

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Skillberto\SonataPageMenuBundle\Site;
 
 use Skillberto\SonataPageMenuBundle\Exception\SiteNotFoundException;
@@ -10,7 +9,7 @@ use Sonata\PageBundle\Model\SiteManagerInterface;
 interface OptionalSiteInterface
 {
     /**
-     * Return the current site
+     * Return the current site.
      *
      * @return SiteInterface
      *
@@ -21,7 +20,7 @@ interface OptionalSiteInterface
     /**
      * Return the 'original' site.
      * In this mean original can be default, or if default does not exist, any located site.
-     * If any site does not exist, then throw an exception
+     * If any site does not exist, then throw an exception.
      *
      * @return SiteInterface
      *

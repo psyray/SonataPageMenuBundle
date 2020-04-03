@@ -2,42 +2,42 @@
 
 namespace Skillberto\SonataPageMenuBundle\Admin;
 
-use Skillberto\SonataPageMenuBundle\Util\PositionHandler;
 use Skillberto\SonataPageMenuBundle\Entity\Menu;
+use Skillberto\SonataPageMenuBundle\Form\Type\AttributeType;
 use Skillberto\SonataPageMenuBundle\Site\OptionalSiteInterface;
-use Sonata\Form\Validator\ErrorElement;
-use Sonata\AdminBundle\Form\FormMapper;
+use Skillberto\SonataPageMenuBundle\Util\PositionHandler;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
-use Sonata\PageBundle\Model\PageManagerInterface;
-use Symfony\Component\Validator\Constraints as Assert;
-use Sonata\PageBundle\Form\Type\PageSelectorType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Form\Type\CollectionType;
 use Sonata\AdminBundle\Form\Type\ModelType;
+use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\Form\Validator\ErrorElement;
+use Sonata\PageBundle\Form\Type\PageSelectorType;
+use Sonata\PageBundle\Model\PageManagerInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Sonata\AdminBundle\Form\Type\CollectionType;
-use Skillberto\SonataPageMenuBundle\Form\Type\AttributeType;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class MenuAdmin extends AbstractAdmin
 {
     protected $managerRegistry;
     protected $pageManagerInterface;
     protected $optionalSiteInterface;
-    protected $formAttribute = array();
+    protected $formAttribute = [];
     protected $pageInstance;
     protected $siteInstance;
     protected $positionHandler;
 
     public function __construct($code, $class, $baseControllerName, PageManagerInterface $pageManagerInterface, OptionalSiteInterface $optionalSiteInterface)
     {
-        $this->pageManagerInterface  = $pageManagerInterface;
+        $this->pageManagerInterface = $pageManagerInterface;
         $this->optionalSiteInterface = $optionalSiteInterface;
-        $this->positionHandler       = new PositionHandler();
+        $this->positionHandler = new PositionHandler();
 
         parent::__construct($code, $class, $baseControllerName);
     }
@@ -47,10 +47,10 @@ class MenuAdmin extends AbstractAdmin
      */
     public function getPersistentParameters()
     {
-        return array(
-            'provider'  => $this->getRequest()->get('provider'),
-            'site'      => $this->getRequest()->get('site'),
-        );
+        return [
+            'provider' => $this->getRequest()->get('provider'),
+            'site' => $this->getRequest()->get('site'),
+        ];
     }
 
     /**
@@ -67,27 +67,24 @@ class MenuAdmin extends AbstractAdmin
     }
 
     /**
-     * @param   ProxyQueryInterface $query
-     *
      * @return ProxyQueryInterface $query
      */
     public function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
         $query = parent::configureQuery($query);
-        
+
         $query->andWhere(
-            $query->expr()->eq($query->getRootAlias() . '.site', ':my_param')
+            $query->expr()->eq($query->getRootAlias().'.site', ':my_param')
         );
 
-        $query->addOrderBy($query->getRootAlias() .'.root', 'ASC');
-        $query->addOrderBy($query->getRootAlias() .'.lft', 'ASC');
+        $query->addOrderBy($query->getRootAlias().'.root', 'ASC');
+        $query->addOrderBy($query->getRootAlias().'.lft', 'ASC');
         $query->setParameter('my_param', $this->getCurrentSite());
 
         return $query;
     }
 
     /**
-     * @param ErrorElement $errorElement
      * @param mixed $object
      */
     public function validate(ErrorElement $errorElement, $object)
@@ -96,7 +93,7 @@ class MenuAdmin extends AbstractAdmin
             ->with('parent')
             ->addConstraint(
                 new Assert\NotEqualTo(
-                    array('value' => $object)
+                    ['value' => $object]
                 )
             )
             ->end();
@@ -104,6 +101,7 @@ class MenuAdmin extends AbstractAdmin
 
     /**
      * @param  $positionHandler
+     *
      * @return $this
      */
     public function setPositionHandler($positionHandler)
@@ -134,7 +132,7 @@ class MenuAdmin extends AbstractAdmin
      */
     public function getSites()
     {
-        return $this->optionalSiteInterface->getSiteManager()->findBy(array());
+        return $this->optionalSiteInterface->getSiteManager()->findBy([]);
     }
 
     protected function configureRoutes(RouteCollection $collection)
@@ -144,8 +142,6 @@ class MenuAdmin extends AbstractAdmin
     }
 
     /**
-     * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
-     *
      * @return void
      */
     protected function configureShowField(ShowMapper $showMapper)
@@ -159,8 +155,6 @@ class MenuAdmin extends AbstractAdmin
     }
 
     /**
-     * @param \Sonata\AdminBundle\Form\FormMapper $formMapper
-     *
      * @return void
      */
     protected function configureFormFields(FormMapper $formMapper)
@@ -176,44 +170,44 @@ class MenuAdmin extends AbstractAdmin
                 'class' => 'col-sm-12 col-md-6',
             ])
              ->add('name', TextType::class)
-             ->add('icon', TextType::class, array('required' => false))
-             ->add('parent', ModelType::class, array('required' => false, 'label' => 'Parent menu'))
+             ->add('icon', TextType::class, ['required' => false])
+             ->add('parent', ModelType::class, ['required' => false, 'label' => 'Parent menu'])
              ->add('type', null, ['label' => 'Position'])
-             ->add('page', PageSelectorType::class, array(
-                        'site'          => $this->siteInstance,
+             ->add('page', PageSelectorType::class, [
+                        'site' => $this->siteInstance,
                         'model_manager' => $this->getModelManager(),
-                        'class'         => 'App\Application\Sonata\PageBundle\Entity\Page',
-                        'required'      => false
-             ), array(
+                        'class' => 'App\Application\Sonata\PageBundle\Entity\Page',
+                        'required' => false,
+             ], [
                         'admin_code' => 'sonata.page.admin.page',
-                        'link_parameters' => array(
-                            'siteId' => $this->getSubject() ? $this->getSubject()->getSite()->getId() : null
-                        )
-                    )
+                        'link_parameters' => [
+                            'siteId' => $this->getSubject() ? $this->getSubject()->getSite()->getId() : null,
+                        ],
+                    ]
                  )
              ->add('url')
             ->end()
             ->with('onglet_options', [
                 'class' => 'col-sm-12 col-md-6',
             ])
-            ->add('active', CheckboxType::class, array('required' => false, 'attr' => $this->formAttribute))
-            ->add('clickable', CheckboxType::class, array('required' => false, 'attr' => $this->formAttribute))
-            ->add('userRestricted', CheckboxType::class, array('required' => false))
-            ->add('hideWhenUserConnected', CheckboxType::class, array('required' => false))
-            ->add('target', ChoiceType::class,[
+            ->add('active', CheckboxType::class, ['required' => false, 'attr' => $this->formAttribute])
+            ->add('clickable', CheckboxType::class, ['required' => false, 'attr' => $this->formAttribute])
+            ->add('userRestricted', CheckboxType::class, ['required' => false])
+            ->add('hideWhenUserConnected', CheckboxType::class, ['required' => false])
+            ->add('target', ChoiceType::class, [
                 'choices' => [
-                    'New window'  => '_blank',
+                    'New window' => '_blank',
                     'Parent' => '_parent',
                     'Current' => '_self',
-                    'On top' => '_top'
+                    'On top' => '_top',
                 ],
                 'label' => 'Cible',
                 'expanded' => false,
-                'required' => false
+                'required' => false,
             ])
             ->add('attribute', CollectionType::class, [
                  'entry_type' => AttributeType::class,
-                 'entry_options' => array('label' => false),
+                 'entry_options' => ['label' => false],
                  'allow_add' => true,
                  'allow_delete' => true,
              ])
@@ -222,8 +216,6 @@ class MenuAdmin extends AbstractAdmin
     }
 
     /**
-     * @param \Sonata\AdminBundle\Datagrid\ListMapper $listMapper
-     *
      * @return void
      */
     protected function configureListFields(ListMapper $listMapper)
@@ -232,8 +224,8 @@ class MenuAdmin extends AbstractAdmin
 
         $listMapper
             ->addIdentifier('id')
-            ->addIdentifier('name', 'string', array('template' => '@SkillbertoSonataPageMenu/Admin/base_list_field.html.twig'))
-            ->add('icon', 'string', array('template' => '@SkillbertoSonataPageMenu/Admin/base_list_field.html.twig'))
+            ->addIdentifier('name', 'string', ['template' => '@SkillbertoSonataPageMenu/Admin/base_list_field.html.twig'])
+            ->add('icon', 'string', ['template' => '@SkillbertoSonataPageMenu/Admin/base_list_field.html.twig'])
             ->add('page')
             ->add('type', null, ['label' => 'Position'])
             ->add('parent')
@@ -241,21 +233,19 @@ class MenuAdmin extends AbstractAdmin
             ->add('clickable')
             ->add('userRestricted')
             ->add('hideWhenUserConnected')
-            ->add('_action', 'actions', array(
-                'actions' => array(
-                    'edit'      => array(),
-                    'delete'    => array(),
-                    'activate'  => array('template' => '@SkillbertoSonataPageMenu/Admin/list__action_activate.html.twig'),
-                    'move'      => array('template' => '@SkillbertoSonataPageMenu/Admin/list__action_sort.html.twig')
-                    )
-                )
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'edit' => [],
+                    'delete' => [],
+                    'activate' => ['template' => '@SkillbertoSonataPageMenu/Admin/list__action_activate.html.twig'],
+                    'move' => ['template' => '@SkillbertoSonataPageMenu/Admin/list__action_sort.html.twig'],
+                    ],
+                ]
             )
         ;
     }
 
     /**
-     * @param \Sonata\AdminBundle\Datagrid\DatagridMapper $datagridMapper
-     *
      * @return void
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
@@ -273,16 +263,16 @@ class MenuAdmin extends AbstractAdmin
         $page = $this->getSubject()->getPage();
         $site = $this->getSubject()->getSite();
 
-        $this->formAttribute = array();
-        $this->pageInstance  = $page;
-        $this->siteInstance  = $site;
+        $this->formAttribute = [];
+        $this->pageInstance = $page;
+        $this->siteInstance = $site;
     }
 
     protected function initializeCreateForm()
     {
-        $this->formAttribute = array('checked' => 'checked');
-        $this->pageInstance  = null;
-        $this->siteInstance  = $this->getCurrentSite();
+        $this->formAttribute = ['checked' => 'checked'];
+        $this->pageInstance = null;
+        $this->siteInstance = $this->getCurrentSite();
     }
 
     /**
@@ -295,7 +285,7 @@ class MenuAdmin extends AbstractAdmin
         if ($currentSite) {
             $pages = $this->pageManagerInterface->loadPages($currentSite);
         } else {
-            $pages = array();
+            $pages = [];
         }
 
         return $pages;
@@ -308,10 +298,10 @@ class MenuAdmin extends AbstractAdmin
     {
         $repo = $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository($this->getClass());
 
-        $count = array();
+        $count = [];
 
         foreach ($repo->getParentChildNumber() as $data) {
-            if ($data['parent'] == null) {
+            if (null == $data['parent']) {
                 $data['parent'] = 0;
             }
 

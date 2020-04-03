@@ -4,9 +4,9 @@ namespace Skillberto\SonataPageMenuBundle;
 
 use Gedmo\Sortable\SortableListener;
 use Gedmo\Tree\TreeListener;
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Skillberto\SonataPageMenuBundle\DependencyInjection\Compiler\GlobalVariablesCompilerPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class SkillbertoSonataPageMenuBundle extends Bundle
 {
@@ -18,7 +18,7 @@ class SkillbertoSonataPageMenuBundle extends Bundle
         parent::build($container);
         $container->addCompilerPass(new GlobalVariablesCompilerPass());
     }
-    
+
     public function boot()
     {
         $treeListener = new TreeListener();

@@ -1,19 +1,14 @@
 <?php
 
-
 namespace Skillberto\SonataPageMenuBundle\Util;
-
 
 class PositionHandler
 {
-    protected
-        $positions = array(),
-        $lastPositions = array()
+    protected $positions = [];
+    protected $lastPositions = []
     ;
 
     /**
-     * @param  array $positions
-     *
      * @return $this
      */
     public function setPositions(array $positions)
@@ -37,8 +32,6 @@ class PositionHandler
     }
 
     /**
-     * @param  array $lastPositions
-     *
      * @return $this
      */
     public function setLastPositions(array $lastPositions)
@@ -57,7 +50,7 @@ class PositionHandler
     }
 
     /**
-     * @param  int $id
+     * @param int $id
      *
      * @return int
      */
@@ -75,7 +68,7 @@ class PositionHandler
     }
 
     /**
-     * @param  int $id
+     * @param int $id
      *
      * @return int
      */
@@ -84,9 +77,8 @@ class PositionHandler
         return isset($this->lastPositions[$id]) ? $this->lastPositions[$id] : 0;
     }
 
-
     /**
-     * @param  int $id
+     * @param int $id
      *
      * @return $this
      */

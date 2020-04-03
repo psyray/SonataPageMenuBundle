@@ -1,24 +1,18 @@
 <?php
 
-
 namespace Skillberto\SonataPageMenuBundle\Entity\Repository;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Mapping\ClassMetadata;
-use Gedmo\Sortable\SortableListener;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
-use Skillberto\SonataPageMenuBundle\Exception\InvalidArgumentException;
 use Sonata\PageBundle\Model\Site;
 
 class MenuRepository extends NestedTreeRepository
 {
     public function getMaxPositionByParentId($parent = null)
     {
-
         $qb = $this->createQueryBuilder('e');
         $qb->select('MAX(e.position) as max_position');
 
-        if ($parent != null) {
+        if (null != $parent) {
             $qb->where('e.parent = :parent');
             $qb->setParameter('parent', $parent);
         } else {
@@ -39,14 +33,14 @@ class MenuRepository extends NestedTreeRepository
         ->addOrderBy('m.root', 'ASC')
         ->addOrderBy('m.lft', 'ASC')
         ;
-        
+
         return $qb->getQuery()->getResult();
     }
-    
+
     public function getMenus(Site $site, $type)
     {
         $qb = $this->createQueryBuilder('m')
-        ->select('m','p','s','mp','mc')
+        ->select('m', 'p', 's', 'mp', 'mc')
         ->leftJoin('m.parent', 'mp')
         ->leftJoin('m.children', 'mc')
         ->leftJoin('m.page', 'p')
@@ -59,7 +53,7 @@ class MenuRepository extends NestedTreeRepository
         ->addOrderBy('m.root', 'ASC')
         ->addOrderBy('m.lft', 'ASC')
         ;
-        
+
         return $qb->getQuery()->getResult();
     }
 }

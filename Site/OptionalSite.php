@@ -10,16 +10,15 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class OptionalSite implements OptionalSiteInterface
 {
-    protected
-        $siteSelectorInterface,
-        $siteManagerInterface,
-        $requestStack;
+    protected $siteSelectorInterface;
+    protected $siteManagerInterface;
+    protected $requestStack;
 
     public function __construct(SiteSelectorInterface $siteSelectorInterface, SiteManagerInterface $siteManagerInterface, RequestStack $requestStack)
     {
         $this->siteSelectorInterface = $siteSelectorInterface;
-        $this->siteManagerInterface  = $siteManagerInterface;
-        $this->requestStack          = $requestStack;
+        $this->siteManagerInterface = $siteManagerInterface;
+        $this->requestStack = $requestStack;
     }
 
     /**
@@ -55,7 +54,7 @@ class OptionalSite implements OptionalSiteInterface
             return $site;
         }
 
-        if (count($sites) == 1) {
+        if (1 == count($sites)) {
             return $sites[0];
         }
 
@@ -71,7 +70,8 @@ class OptionalSite implements OptionalSiteInterface
     }
 
     /**
-     * @param  int $siteId
+     * @param int $siteId
+     *
      * @return SiteInterface|null
      */
     protected function getSiteById($siteId)
@@ -88,7 +88,8 @@ class OptionalSite implements OptionalSiteInterface
     }
 
     /**
-     * @param  SiteInterface[] $sites
+     * @param SiteInterface[] $sites
+     *
      * @return SiteInterface|null
      */
     protected function getDefaultSite(array $sites)

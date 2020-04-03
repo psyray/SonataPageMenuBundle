@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * Menu
+ * Menu.
  *
  * @Gedmo\Tree(type="nested")
  * @ORM\Table(name="skillberto__menu")
@@ -16,67 +16,67 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Menu
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-    
+
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
     protected $name;
-    
+
     /**
      * @var string
      *
      * @ORM\Column(name="icon", type="string", length=255, nullable=true)
      */
     protected $icon;
-    
+
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="clickable", type="boolean", nullable=false)
      */
     protected $clickable = true;
-    
+
     /**
-     * @var integer
+     * @var int
      *
      * @Gedmo\TreeLeft
      * @ORM\Column(name="lft", type="integer", nullable=false)
      */
     protected $lft;
-    
+
     /**
-     * @var integer
+     * @var int
      *
      * @Gedmo\TreeRight
      * @ORM\Column(name="rgt", type="integer", nullable=false)
      */
     protected $rgt;
-    
+
     /**
-     * @var integer
+     * @var int
      *
      * @Gedmo\TreeRoot
      * @ORM\Column(name="root", type="integer", nullable=true)
      */
     protected $root;
-    
+
     /**
-     * @var integer
+     * @var int
      *
      * @Gedmo\TreeLevel
      * @ORM\Column(name="lvl", type="integer", nullable=false)
      */
     protected $lvl;
-    
+
     /**
      * @var string
      *
@@ -86,7 +86,7 @@ class Menu
      * })
      */
     protected $type;
-    
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
@@ -94,7 +94,7 @@ class Menu
      * @ORM\OrderBy({"lft" = "ASC"})
      */
     protected $children;
-    
+
     /**
      * @var \App\Application\Sonata\PageBundle\Entity\Page
      *
@@ -104,14 +104,14 @@ class Menu
      * })
      */
     protected $page;
-    
+
     /**
      * @var string
      *
      * @ORM\Column(name="url", type="string", length=255, nullable=true)
      */
     protected $url;
-    
+
     /**
      * @var \App\Application\Sonata\PageBundle\Entity\Site
      *
@@ -121,7 +121,7 @@ class Menu
      * })
      */
     protected $site;
-    
+
     /**
      * @var Menu
      *
@@ -132,94 +132,95 @@ class Menu
      * })
      */
     protected $parent;
-    
+
     /**
      * @var array
      *
      * @ORM\Column(name="attribute", type="array")
      */
     protected $attribute;
-    
+
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="active", type="boolean", nullable=false)
      */
     protected $active = false;
-    
+
     /**
      * @var string
      *
      * @ORM\Column(name="target", type="string", nullable=true)
      */
     protected $target;
-    
+
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="user_restricted", type="boolean", nullable=false)
      */
     protected $userRestricted = false;
-    
+
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="hide_when_userconnected", type="boolean", nullable=false)
      */
     protected $hideWhenUserConnected = false;
-    
+
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime")
      */
     protected $createdAt;
-    
+
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="updated_at", type="datetime")
      */
     protected $updatedAt;
-    
+
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     public function __toString()
     {
         return (string) $this->getName();
     }
-    
+
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
         return $this->id;
     }
-    
+
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
+     *
      * @return Menu
      */
     public function setName($name)
     {
         $this->name = $name;
-        
+
         return $this;
     }
-    
+
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -227,22 +228,23 @@ class Menu
     {
         return $this->name;
     }
-    
+
     /**
-     * Set icon
+     * Set icon.
      *
      * @param string $icon
+     *
      * @return Menu
      */
     public function setIcon($icon)
     {
         $this->icon = $icon;
-        
+
         return $this;
     }
-    
+
     /**
-     * Get icon
+     * Get icon.
      *
      * @return string
      */
@@ -250,141 +252,147 @@ class Menu
     {
         return $this->icon;
     }
-    
+
     /**
-     * Set clickable
+     * Set clickable.
      *
-     * @param boolean $clickable
+     * @param bool $clickable
+     *
      * @return Menu
      */
     public function setClickable($clickable)
     {
         $this->clickable = $clickable;
-        
+
         return $this;
     }
-    
+
     /**
-     * Get clickable
+     * Get clickable.
      *
-     * @return boolean
+     * @return bool
      */
     public function getClickable()
     {
         return $this->clickable;
     }
-    
+
     /**
-     * Set lft
+     * Set lft.
      *
-     * @param integer $lft
+     * @param int $lft
+     *
      * @return Menu
      */
     public function setLft($lft)
     {
         $this->lft = $lft;
-        
+
         return $this;
     }
-    
+
     /**
-     * Get lft
+     * Get lft.
      *
-     * @return integer
+     * @return int
      */
     public function getLft()
     {
         return $this->lft;
     }
-    
+
     /**
-     * Set rgt
+     * Set rgt.
      *
-     * @param integer $rgt
+     * @param int $rgt
+     *
      * @return Menu
      */
     public function setRgt($rgt)
     {
         $this->rgt = $rgt;
-        
+
         return $this;
     }
-    
+
     /**
-     * Get rgt
+     * Get rgt.
      *
-     * @return integer
+     * @return int
      */
     public function getRgt()
     {
         return $this->rgt;
     }
-    
+
     /**
-     * Set root
+     * Set root.
      *
-     * @param integer $root
+     * @param int $root
+     *
      * @return Menu
      */
     public function setRoot($root)
     {
         $this->root = $root;
-        
+
         return $this;
     }
-    
+
     /**
-     * Get root
+     * Get root.
      *
-     * @return integer
+     * @return int
      */
     public function getRoot()
     {
         return $this->root;
     }
-    
+
     /**
-     * Set lvl
+     * Set lvl.
      *
-     * @param integer $lvl
+     * @param int $lvl
+     *
      * @return Menu
      */
     public function setLvl($lvl)
     {
         $this->lvl = $lvl;
-        
+
         return $this;
     }
-    
+
     /**
-     * Get lvl
+     * Get lvl.
      *
-     * @return integer
+     * @return int
      */
     public function getLvl()
     {
         return $this->lvl;
     }
-    
+
     /**
-     * Set type
+     * Set type.
      *
      * @param string $type
+     *
      * @return Menu
      */
     public function setType($type)
     {
-        if(null !== $this->getParent() && $this->getParent()->getType() <> $type) {
+        if (null !== $this->getParent() && $this->getParent()->getType() != $type) {
             $this->type = $this->getParent()->getType();
         } else {
             $this->type = $type;
         }
-        
+
         return $this;
     }
-    
+
     /**
-     * Get type
+     * Get type.
      *
      * @return string
      */
@@ -392,32 +400,29 @@ class Menu
     {
         return $this->type;
     }
-    
+
     /**
-     * Add children
+     * Add children.
      *
-     * @param \Skillberto\SonataPageMenuBundle\Entity\Menu $children
      * @return Menu
      */
     public function addChild(\Skillberto\SonataPageMenuBundle\Entity\Menu $children)
     {
         $this->children[] = $children;
-        
+
         return $this;
     }
-    
+
     /**
-     * Remove children
-     *
-     * @param \Skillberto\SonataPageMenuBundle\Entity\Menu $children
+     * Remove children.
      */
     public function removeChild(\Skillberto\SonataPageMenuBundle\Entity\Menu $children)
     {
         $this->children->removeElement($children);
     }
-    
+
     /**
-     * Get children
+     * Get children.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -425,22 +430,23 @@ class Menu
     {
         return $this->children;
     }
-    
+
     /**
-     * Set page
+     * Set page.
      *
      * @param \App\Application\Sonata\PageBundle\Entity\Page $page
+     *
      * @return Menu
      */
     public function setPage(\App\Application\Sonata\PageBundle\Entity\Page $page = null)
     {
         $this->page = $page;
-        
+
         return $this;
     }
-    
+
     /**
-     * Get page
+     * Get page.
      *
      * @return \App\Application\Sonata\PageBundle\Entity\Page
      */
@@ -448,22 +454,23 @@ class Menu
     {
         return $this->page;
     }
-    
+
     /**
-     * Set site
+     * Set site.
      *
      * @param \App\Application\Sonata\PageBundle\Entity\Site $site
+     *
      * @return Menu
      */
     public function setSite(\App\Application\Sonata\PageBundle\Entity\Site $site = null)
     {
         $this->site = $site;
-        
+
         return $this;
     }
-    
+
     /**
-     * Get site
+     * Get site.
      *
      * @return \App\Application\Sonata\PageBundle\Entity\Site
      */
@@ -471,22 +478,23 @@ class Menu
     {
         return $this->site;
     }
-    
+
     /**
-     * Set parent
+     * Set parent.
      *
      * @param \Skillberto\SonataPageMenuBundle\Entity\Menu $parent
+     *
      * @return Menu
      */
     public function setParent(\Skillberto\SonataPageMenuBundle\Entity\Menu $parent = null)
     {
         $this->parent = $parent;
-        
+
         return $this;
     }
-    
+
     /**
-     * Get parent
+     * Get parent.
      *
      * @return \Skillberto\SonataPageMenuBundle\Entity\Menu
      */
@@ -494,22 +502,23 @@ class Menu
     {
         return $this->parent;
     }
-    
+
     /**
-     * Set attribute
+     * Set attribute.
      *
      * @param array $attribute
+     *
      * @return Menu
      */
     public function setAttribute($attribute)
     {
         $this->attribute = $attribute;
-        
+
         return $this;
     }
-    
+
     /**
-     * Get attribute
+     * Get attribute.
      *
      * @return array
      */
@@ -517,46 +526,47 @@ class Menu
     {
         return $this->attribute;
     }
-    
+
     /**
-     * Set active
+     * Set active.
      *
-     * @param boolean $active
+     * @param bool $active
+     *
      * @return Menu
-     
      */
     public function setActive($active)
     {
         $this->active = $active;
-        
+
         return $this;
     }
-    
+
     /**
-     * Get active
+     * Get active.
      *
-     * @return boolean
+     * @return bool
      */
     public function getActive()
     {
         return $this->active;
     }
-    
+
     /**
-     * Set target
+     * Set target.
      *
      * @param string $target
+     *
      * @return Menu
      */
     public function setTarget($target)
     {
         $this->target = $target;
-        
+
         return $this;
     }
-    
+
     /**
-     * Get target
+     * Get target.
      *
      * @return string
      */
@@ -564,22 +574,23 @@ class Menu
     {
         return $this->target;
     }
-    
+
     /**
-     * Set url
+     * Set url.
      *
      * @param string $url
+     *
      * @return Menu
      */
     public function setUrl($url)
     {
         $this->url = $url;
-        
+
         return $this;
     }
-    
+
     /**
-     * Get url
+     * Get url.
      *
      * @return string
      */
@@ -587,70 +598,71 @@ class Menu
     {
         return $this->url;
     }
-    
+
     /**
-     * Set user restricted
+     * Set user restricted.
      *
-     * @param boolean $userRestricted
+     * @param bool $userRestricted
+     *
      * @return Menu
-     
      */
     public function setUserRestricted($userRestricted)
     {
         $this->userRestricted = $userRestricted;
-        
+
         return $this;
     }
-    
+
     /**
-     * Get user restricted
+     * Get user restricted.
      *
-     * @return boolean
+     * @return bool
      */
     public function getUserRestricted()
     {
         return $this->userRestricted;
     }
-    
+
     /**
-     * Set hide when user connected
+     * Set hide when user connected.
      *
-     * @param boolean $hideWhenUserConnected
+     * @param bool $hideWhenUserConnected
+     *
      * @return Menu
-     
      */
     public function setHideWhenUserConnected($hideWhenUserConnected)
     {
         $this->hideWhenUserConnected = $hideWhenUserConnected;
-        
+
         return $this;
     }
-    
+
     /**
-     * Get hide when user connected
+     * Get hide when user connected.
      *
-     * @return boolean
+     * @return bool
      */
     public function getHideWhenUserConnected()
     {
         return $this->hideWhenUserConnected;
     }
-    
+
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
+     *
      * @return Menu
      */
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-        
+
         return $this;
     }
-    
+
     /**
-     * Get createdAt
+     * Get createdAt.
      *
      * @return \DateTime
      */
@@ -658,22 +670,23 @@ class Menu
     {
         return $this->createdAt;
     }
-    
+
     /**
-     * Set updatedAt
+     * Set updatedAt.
      *
      * @param \DateTime $updatedAt
+     *
      * @return Menu
      */
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-        
+
         return $this;
     }
-    
+
     /**
-     * Get updatedAt
+     * Get updatedAt.
      *
      * @return \DateTime
      */
@@ -681,22 +694,21 @@ class Menu
     {
         return $this->updatedAt;
     }
-    
-    
+
     /**
      * @ORM\PrePersist
      */
     public function createdAt()
     {
-        $this->setCreatedAt( new \DateTime("now") );
-        $this->setUpdatedAt( new \DateTime("now") );
+        $this->setCreatedAt(new \DateTime('now'));
+        $this->setUpdatedAt(new \DateTime('now'));
     }
-    
+
     /**
      * @ORM\PostPersist
      */
     public function updateAt()
     {
-        $this->setUpdatedAt( new \DateTime("now") );
+        $this->setUpdatedAt(new \DateTime('now'));
     }
 }

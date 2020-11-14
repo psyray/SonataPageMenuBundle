@@ -143,12 +143,12 @@ class MainMenuBuilder implements MenuBuilderInterface
             }
         }
 
-        $matcher = new Matcher();
-        $matcher->addVoter(new UriVoter($_SERVER['REQUEST_URI']));
-        if ($matcher->isCurrent($current)) {
-            $current->setCurrent(true);
-            $this->currentMenuName = $menu->getName();
-        }
+//         $matcher = new Matcher();
+//         $matcher->addVoter(new UriVoter($_SERVER['REQUEST_URI']));
+//         if ($matcher->isCurrent($current)) {
+//             $current->setCurrent(true);
+//             $this->currentMenuName = $menu->getName();
+//         }
 
         return $current;
     }
